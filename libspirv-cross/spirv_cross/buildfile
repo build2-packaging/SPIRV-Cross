@@ -29,8 +29,9 @@ cxx.poptions =+ $spirvcross_export_poptions $spirvcross_ns_poptions
 if ($cxx.class != 'msvc')
   cxx.coptions =+ -fvisibility=hidden
 
-macos = ($cxx.target.class == 'macos')
-bsd   = ($cxx.target.class == 'bsd')
+macos   = ($cxx.target.class == 'macos')
+bsd     = ($cxx.target.class == 'bsd')
+windows = ($cxx.target.class == 'windows')
 
 # libul{} so libs{spirv-cross-c} can link PIC libus{} objects. The same
 # cxx{} cannot be a source of both liba{backend} and libs{spirv-cross-c}:
@@ -252,7 +253,9 @@ lib{spirv-cross-c}:
 
 # Pre-release keeps the snapshot suffix so it cannot replace a final ABI
 # layout. A final release versions the shared member with the C API ABI
-# (SOVERSION major, not the Vulkan SDK package version).
+# (SOVERSION major, not the Vulkan SDK package version). Upstream CMake's
+# VERSION/SOVERSION do not affect the Windows DLL name, so bin.lib.version
+# is left unset there.
 #
 if $version.pre_release
   lib{spirv-cross-c}: bin.lib.version = "-$version.project_id"
@@ -260,9 +263,9 @@ elif $macos
   lib{spirv-cross-c}: bin.lib.version = ".$SPVC_C_API_VERSION_MAJOR"
 elif $bsd
   libs{spirv-cross-c}: extension = "so.$SPVC_C_API_VERSION_MAJOR"
-else
+elif (!$windows)
   lib{spirv-cross-c}: bin.lib.version = "-$SPVC_C_API_VERSION_MAJOR" \
-    linux@$SPVC_C_API_VERSION_MAJOR.$SPVC_C_API_VERSION_MINOR.$SPVC_C_API_VERSION_PATCH
+    linux@"$SPVC_C_API_VERSION_MAJOR.$SPVC_C_API_VERSION_MINOR.$SPVC_C_API_VERSION_PATCH"
 
 # Static C API consumers still need the backend archives. The shared C API
 # links those objects in via libus{}.
