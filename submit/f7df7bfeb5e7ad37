@@ -1,0 +1,8 @@
+: 1
+name: libspirv-cross
+version: 1.4.357+1
+upstream-version: vulkan-sdk-1.4.357.0
+language: c++
+project: spirv-cross
+summary: SPIR-V to GLSL/HLSL/MSL/C++ cross-compiler and reflection library
+license: Apache-2.0 AND MIT, other: Khronos; NonSemanticShaderDebugInfo100.h.
