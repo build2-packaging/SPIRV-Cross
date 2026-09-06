@@ -1,0 +1,8 @@
+: 1
+name: spirv-cross
+version: 1.4.357
+upstream-version: vulkan-sdk-1.4.357.0
+language: c++
+project: spirv-cross
+summary: SPIR-V to GLSL/HLSL/MSL/C++ command line cross-compiler
+license: Apache-2.0; File main.cpp is Apache-2.0 OR MIT.
